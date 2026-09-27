@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Chúc Mừng Năm Mới 2027</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        color: white;
+
+        background-image: url("background.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    /* Lớp pháo hoa */
+    #phaoHoa {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Nội dung chính */
+    .content {
+        position: relative;
+        z-index: 2;
+
+        width: 100%;
+        text-align: center;
+
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Logo */
+    .logo {
+        width: 180px;
+        max-width: 80%;
+        margin-bottom: 20px;
+    }
+
+    /* Tiêu đề */
+    h1 {
+        font-size: 64px;
+        margin-bottom: 30px;
+        text-shadow:
+            0 0 10px rgba(255, 255, 255, 0.8),
+            0 0 20px rgba(255, 215, 0, 0.8);
+    }
+
+    /* Bộ đếm */
+    .countdown {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 35px;
+    }
+
+    .time-box {
+        min-width: 100px;
+    }
+
+    .time-box span {
+        display: block;
+        font-size: 60px;
+        font-weight: bold;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    }
+
+    .time-box small {
+        font-size: 18px;
+    }
+
+    /* Nút xem thêm */
+    button {
+        padding: 12px 28px;
+
+        font-size: 18px;
+        color: white;
+
+        background: transparent;
+        border: 2px solid white;
+        border-radius: 30px;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: white;
+        color: black;
+        transform: scale(1.08);
+    }
+
+    /* Lời chúc */
+    .loi-chuc {
+        display: none;
+
+        max-width: 650px;
+        margin: 20px auto 0;
+
+        padding: 15px 25px;
+
+        font-size: 18px;
+        line-height: 1.6;
+
+        color: white;
+
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 15px;
+
+        animation: hienLoiChuc 0.8s ease;
+    }
+
+    @keyframes hienLoiChuc {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Điện thoại */
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 42px;
+        }
+
+        .countdown {
+            gap: 10px;
+        }
+
+        .time-box {
+            min-width: 70px;
+        }
+
+        .time-box span {
+            font-size: 40px;
+        }
+
+        .time-box small {
+            font-size: 14px;
+        }
+
+        .logo {
+            width: 140px;
+        }
+
+        .loi-chuc {
+            margin-left: 20px;
+            margin-right: 20px;
+            font-size: 16px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- Canvas dùng để vẽ pháo hoa -->
+<canvas id="phaoHoa"></canvas>
+
+<div class="content">
+
+    <img src="tet.jpg" class="logo" alt="Logo">
+
+    <h1>Chúc Mừng Năm Mới</h1>
+
+    <div class="countdown">
+
+        <div class="time-box">
+            <span id="ngay">00</span>
+            <small>Ngày</small>
+        </div>
+
+        <div class="time-box">
+            <span id="gio">00</span>
+            <small>Giờ</small>
+        </div>
+
+        <div class="time-box">
+            <span id="phut">00</span>
+            <small>Phút</small>
+        </div>
+
+        <div class="time-box">
+            <span id="giay">00</span>
+            <small>Giây</small>
+        </div>
+
+    </div>
+
+    <button type="button" onclick="xemThem()">
+        Xem thêm ↓
+    </button>
+
+    <div id="loiChuc" class="loi-chuc">
+        🎉 Chúc bạn một năm mới thật nhiều niềm vui!<br>
+        🧧 Gia đình luôn mạnh khỏe, hạnh phúc và bình an.<br>
+        ❤️ Mọi điều ước đều trở thành hiện thực.<br>
+        🎆 Chúc mừng năm mới 2027!
+    </div>
+
+</div>
+
+
+<script>
+
+    /* ==================================================
+       PHẦN 1: ĐẾM NGƯỢC ĐẾN NĂM MỚI 2027
+    ================================================== */
+
+    var ngayDich = new Date("Jan 01, 2027 00:00:00").getTime();
+
+    var boDem = setInterval(function () {
+
+        var hienTai = new Date().getTime();
+
+        var khoangCach = ngayDich - hienTai;
+
+        var ngay = Math.floor(khoangCach / (1000 * 60 * 60 * 24));
+
+        var gio = Math.floor(
+            (khoangCach % (1000 * 60 * 60 * 24))
+            / (1000 * 60 * 60)
+        );
+
+        var phut = Math.floor(
+            (khoangCach % (1000 * 60 * 60))
+            / (1000 * 60)
+        );
+
+        var giay = Math.floor(
+            (khoangCach % (1000 * 60))
+            / 1000
+        );
+
+        if (khoangCach < 0) {
+
+            clearInterval(boDem);
+
+            ngay = 0;
+            gio = 0;
+            phut = 0;
+            giay = 0;
+        }
+
+        document.getElementById("ngay").innerText =
+            String(ngay).padStart(2, "0");
+
+        document.getElementById("gio").innerText =
+            String(gio).padStart(2, "0");
+
+        document.getElementById("phut").innerText =
+            String(phut).padStart(2, "0");
+
+        document.getElementById("giay").innerText =
+            String(giay).padStart(2, "0");
+
+    }, 1000);
+
+
+    /* ==================================================
+       PHẦN 2: NÚT XEM THÊM
+    ================================================== */
+
+    function xemThem() {
+
+        var loiChuc = document.getElementById("loiChuc");
+
+        if (loiChuc.style.display === "block") {
+            loiChuc.style.display = "none";
+        }
+        else {
+            loiChuc.style.display = "block";
+        }
+    }
+
+
+    /* ==================================================
+       PHẦN 3: HIỆU ỨNG PHÁO HOA
+    ================================================== */
+
+    var canvas = document.getElementById("phaoHoa");
+    var ctx = canvas.getContext("2d");
+
+    var chieuRong;
+    var chieuCao;
+
+    var phaoHoa = [];
+    var hatPháo = [];
+
+    function thayDoiKichThuoc() {
+
+        chieuRong = canvas.width = window.innerWidth;
+        chieuCao = canvas.height = window.innerHeight;
+    }
+
+    thayDoiKichThuoc();
+
+    window.addEventListener("resize", thayDoiKichThuoc);
+
+
+    /* Màu pháo hoa */
+
+    var mauSac = [
+        "#ff3838",
+        "#ff9f1a",
+        "#ffe600",
+        "#00ff88",
+        "#00d9ff",
+        "#ffffff",
+        "#ff4fd8",
+        "#b56cff"
+    ];
+
+
+    /* ==================================================
+       TẠO MỘT QUẢ PHÁO
+    ================================================== */
+
+    function taoPhao() {
+
+        var x = Math.random() * chieuRong;
+
+        var y = chieuCao;
+
+        var mucTieuY =
+            chieuCao * 0.15 +
+            Math.random() * chieuCao * 0.4;
+
+        var mau =
+            mauSac[
+                Math.floor(Math.random() * mauSac.length)
+            ];
+
+        phaoHoa.push({
+
+            x: x,
+            y: y,
+
+            mucTieuY: mucTieuY,
+
+            tocDo: 7 + Math.random() * 3,
+
+            mau: mau,
+
+            daNo: false
+        });
+    }
+
+
+    /* ==================================================
+       TẠO CÁC HẠT SAU KHI PHÁO NỔ
+    ================================================== */
+
+    function taoHat(x, y, mau) {
+
+        var soLuong =
+            60 + Math.floor(Math.random() * 40);
+
+        for (var i = 0; i < soLuong; i++) {
+
+            var goc =
+                Math.random() * Math.PI * 2;
+
+            var tocDo =
+                Math.random() * 6 + 2;
+
+            hatPháo.push({
+
+                x: x,
+                y: y,
+
+                vx: Math.cos(goc) * tocDo,
+                vy: Math.sin(goc) * tocDo,
+
+                mau: mau,
+
+                tuoi: 0,
+
+                tuoiToiDa:
+                    50 + Math.random() * 30
+            });
+        }
+    }
+
+
+    /* ==================================================
+       CẬP NHẬT PHÁO HOA
+    ================================================== */
+
+    function capNhatPhao() {
+
+        for (var i = phaoHoa.length - 1; i >= 0; i--) {
+
+            var phao = phaoHoa[i];
+
+            phao.y -= phao.tocDo;
+
+            /* Khi bay đến vị trí nổ */
+
+            if (phao.y <= phao.mucTieuY) {
+
+                taoHat(
+                    phao.x,
+                    phao.y,
+                    phao.mau
+                );
+
+                phaoHoa.splice(i, 1);
+            }
+        }
+    }
+
+
+    /* ==================================================
+       CẬP NHẬT HẠT PHÁO HOA
+    ================================================== */
+
+    function capNhatHat() {
+
+        for (var i = hatPháo.length - 1; i >= 0; i--) {
+
+            var hat = hatPháo[i];
+
+            hat.x += hat.vx;
+            hat.y += hat.vy;
+
+            /* Trọng lực */
+
+            hat.vy += 0.06;
+
+            /* Ma sát không khí */
+
+            hat.vx *= 0.99;
+            hat.vy *= 0.99;
+
+            hat.tuoi++;
+
+            if (hat.tuoi >= hat.tuoiToiDa) {
+
+                hatPháo.splice(i, 1);
+            }
+        }
+    }
+
+
+    /* ==================================================
+       VẼ PHÁO HOA
+    ================================================== */
+
+    function vePhaoHoa() {
+
+        /*
+            Tạo lớp mờ để pháo hoa có
+            hiệu ứng vệt sáng.
+        */
+
+        ctx.fillStyle =
+            "rgba(0, 0, 0, 0.15)";
+
+        ctx.fillRect(
+            0,
+            0,
+            chieuRong,
+            chieuCao
+        );
+
+
+        /* Vẽ quả pháo đang bay */
+
+        for (var i = 0; i < phaoHoa.length; i++) {
+
+            var phao = phaoHoa[i];
+
+            ctx.beginPath();
+
+            ctx.arc(
+                phao.x,
+                phao.y,
+                3,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle = phao.mau;
+
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = phao.mau;
+
+            ctx.fill();
+        }
+
+
+        /* Vẽ các tia pháo hoa */
+
+        for (var i = 0; i < hatPháo.length; i++) {
+
+            var hat = hatPháo[i];
+
+            var doMo =
+                1 - hat.tuoi / hat.tuoiToiDa;
+
+            ctx.beginPath();
+
+            ctx.arc(
+                hat.x,
+                hat.y,
+                2,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.globalAlpha = doMo;
+
+            ctx.fillStyle = hat.mau;
+
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = hat.mau;
+
+            ctx.fill();
+        }
+
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+    }
+
+
+    /* ==================================================
+       VÒNG LẶP PHÁO HOA
+    ================================================== */
+
+    function chayPhaoHoa() {
+
+        capNhatPhao();
+
+        capNhatHat();
+
+        vePhaoHoa();
+
+        requestAnimationFrame(chayPhaoHoa);
+    }
+
+    chayPhaoHoa();
+
+
+    /* ==================================================
+       TỰ ĐỘNG BẮN PHÁO
+    ================================================== */
+
+    setInterval(function () {
+
+        /*
+            Mỗi lần có 1-2 quả pháo
+            được bắn lên.
+        */
+
+        taoPhao();
+
+        if (Math.random() > 0.6) {
+            taoPhao();
+        }
+
+    }, 800);
+
+
+    /* Bắn ngay khi mở trang */
+
+    taoPhao();
+    setTimeout(taoPhao, 400);
+    setTimeout(taoPhao, 800);
+
+</script>
+```
+
+</body>
+</html>
